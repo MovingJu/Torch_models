@@ -1,7 +1,7 @@
-import setup
+import modules
 
 def main():
-    print(f"path to datasets: {setup.path}")
+    print(f"path to datasets: {modules.Cifar10.path}")
     print("Hello from face-models!")
 
 

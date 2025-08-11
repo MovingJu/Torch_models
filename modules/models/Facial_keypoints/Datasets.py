@@ -5,9 +5,10 @@ from torch.utils.data import Dataset
 import pandas as pd
 
 class Datasets(Dataset):
-    def __init__(self, csv_file, image_dir, transform=None):
-        self.data = pd.read_csv(csv_file)
-        self.image_dir = image_dir
+    def __init__(self, dataset_path: str, csv_file_name: str, image_name: str, transform=None):
+        self.dataset_path = dataset_path
+        self.data = pd.read_csv(dataset_path + "/" + csv_file_name)
+        self.image_dir = dataset_path + "/" + image_name
         self.transform = transform
 
     def __len__(self):
