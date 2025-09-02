@@ -1,8 +1,9 @@
+import torchvision.transforms as transform
 from torch.utils.data import Dataset
-import cv2, pandas as pd
+import torch, cv2, pandas as pd
 
 class Datasets(Dataset):
-    def __init__(self, dataset_path: str, csv_file_name: str, image_path: str, is_train: bool = False, transform=None):
+    def __init__(self, dataset_path: str, csv_file_name: str, image_path: str, is_train: bool = False, transform: transform.Compose | None = None):
         self.dataset_path = dataset_path
         self.data = pd.read_csv(dataset_path + "/" + csv_file_name)
         self.image_dir = dataset_path + "/" + image_path
@@ -13,11 +14,14 @@ class Datasets(Dataset):
 
     def __getitem__(self, idx):
 
-        label: tuple = (
-            self.data.iloc[idx, 1],
-            self.data.iloc[idx, 2],
-            self.data.iloc[idx, 3],
-            self.data.iloc[idx, 4],
+        label = torch.tensor(
+            [
+                self.data.iloc[idx, 1],
+                self.data.iloc[idx, 2],
+                self.data.iloc[idx, 3],
+                self.data.iloc[idx, 4]
+            ],
+            dtype=torch.float
         )
         file_name = self.image_dir + "/" + str(self.data.iloc[idx, 0])
         temp = cv2.imread(file_name, cv2.IMREAD_COLOR)
@@ -27,6 +31,8 @@ class Datasets(Dataset):
             result = np.zeros((1, 1, 3), dtype=np.uint8)
             return result, (-1, -1, -1, -1)
 
+        if self.transform:
+            temp = self.transform(temp)
 
         return temp, label
 

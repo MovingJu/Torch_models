@@ -1,5 +1,7 @@
 import torch
 import torch.nn as nn
+import torchvision.transforms as transforms
+
 
 class Facial_keypoints(nn.Module):
     def __init__(self) -> None:
@@ -11,19 +13,21 @@ class Facial_keypoints(nn.Module):
         )
         self.cnn2 = nn.Sequential(
             nn.Conv2d(in_channels=32, out_channels=64, kernel_size=3, padding=1),
-            nn.ReLU()
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=2, stride=2)
         )
         self.cnn3 = nn.Sequential(
             nn.Conv2d(in_channels=64, out_channels=128, kernel_size=3, padding=1),
-            nn.ReLU()
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=2, stride=2)
         )
         self.flatten = nn.Flatten()
         self.nn1 = nn.Sequential(
-            nn.Linear(128 * 16 * 16, 512),
+            nn.Linear(128 * 27 * 22, 512),
             nn.ReLU(),
             nn.Linear(512, 256),
             nn.ReLU(),
-            nn.Linear(256, 10)
+            nn.Linear(256, 4)
         )
     def forward(self, x):
         x = self.cnn1(x)
@@ -33,14 +37,13 @@ class Facial_keypoints(nn.Module):
         x = self.nn1(x)
         return x
     
-    @staticmethod
-    def set_device():
-        if torch.cuda.is_available():
-            return "cuda"
-        elif torch.backends.mps.is_available():
-            return "mps"
-        else:
-            return "cpu"
+def set_device():
+    if torch.cuda.is_available():
+        return "cuda"
+    elif torch.backends.mps.is_available():
+        return "mps"
+    else:
+        return "cpu"
 
 
 def main():
@@ -49,16 +52,21 @@ def main():
     from Datasets import Datasets
     import path
 
-    device = Facial_keypoints.set_device()
+    device = set_device()
 
-    full_datas = Datasets(path.path, "list_bbox_celeba.csv", "img_align_celeba/img_align_celeba")
+    transform = transforms.Compose([
+        transforms.ToTensor(),
+    ])
+
+    full_datas = Datasets(path.path, "list_bbox_celeba.csv", "img_align_celeba/img_align_celeba", transform=transform)
     model = Facial_keypoints().to(device)
     criterion = nn. MSELoss()
     optimizer = 1e-3
+    
     train_dataset, test_dataset = torch.utils.data.random_split(full_datas, [0.8, 0.2])
     train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True, num_workers=(os.cpu_count() or 4))
 
-    total_epoch = 30
+    total_epoch = 10
 
     for epoch in range(total_epoch):
         model.train()
