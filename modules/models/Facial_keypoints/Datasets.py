@@ -2,7 +2,7 @@ from torch.utils.data import Dataset
 import cv2, pandas as pd
 
 class Datasets(Dataset):
-    def __init__(self, dataset_path: str, csv_file_name: str, image_path: str, transform=None):
+    def __init__(self, dataset_path: str, csv_file_name: str, image_path: str, is_train: bool = False, transform=None):
         self.dataset_path = dataset_path
         self.data = pd.read_csv(dataset_path + "/" + csv_file_name)
         self.image_dir = dataset_path + "/" + image_path
@@ -12,6 +12,7 @@ class Datasets(Dataset):
         return len(self.data)
 
     def __getitem__(self, idx):
+
         label: tuple = (
             self.data.iloc[idx, 1],
             self.data.iloc[idx, 2],

@@ -11,3 +11,6 @@ wheels/
 
 # data sets
 datasets
+
+# model
+*.pt

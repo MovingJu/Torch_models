@@ -1,3 +1,4 @@
+import torch
 import torch.nn as nn
 
 class Facial_keypoints(nn.Module):
@@ -31,3 +32,63 @@ class Facial_keypoints(nn.Module):
         x = self.flatten(x)
         x = self.nn1(x)
         return x
+    
+    @staticmethod
+    def set_device():
+        if torch.cuda.is_available():
+            return "cuda"
+        elif torch.backends.mps.is_available():
+            return "mps"
+        else:
+            return "cpu"
+
+
+def main():
+    import os
+    from torch.utils.data.dataloader import DataLoader
+    from Datasets import Datasets
+    import path
+
+    device = Facial_keypoints.set_device()
+
+    full_datas = Datasets(path.path, "list_bbox_celeba.csv", "img_align_celeba/img_align_celeba")
+    model = Facial_keypoints().to(device)
+    criterion = nn. MSELoss()
+    optimizer = 1e-3
+    train_dataset, test_dataset = torch.utils.data.random_split(full_datas, [0.8, 0.2])
+    train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True, num_workers=(os.cpu_count() or 4))
+
+    total_epoch = 30
+
+    for epoch in range(total_epoch):
+        model.train()
+        total_loss = 0
+        # correct = 0
+        # total = 0
+        
+        for batch_x, batch_y in train_loader:
+            batch_x, batch_y = batch_x.to(device), batch_y.to(device)
+
+            outputs = model(batch_x)
+            loss = criterion(outputs, batch_y)
+
+            loss.backward()
+
+            total_loss += loss.item()
+            # preds = outputs.argmax(dim=1)
+            # correct += (preds == batch_y).sum().item()
+            # total += batch_y.size(0)
+        
+        # acc = correct / total * 100
+        # print(f"[Epoch {epoch+1}] Loss: {total_loss:.4f}, Accuracy: {acc:.2f}%")
+        print(f"[Epoch {epoch+1}] Loss: {total_loss:.4f}")
+
+    torch.save(model, "FK_test_model.pt")
+
+    return
+
+
+
+
+if __name__ == "__main__":
+    main()
