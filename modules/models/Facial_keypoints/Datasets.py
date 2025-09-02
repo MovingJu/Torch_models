@@ -1,4 +1,3 @@
-import torch
 from torch.utils.data import Dataset
 import cv2, pandas as pd
 
@@ -20,25 +19,25 @@ class Datasets(Dataset):
             self.data.iloc[idx, 4],
         )
         file_name = self.image_dir + "/" + str(self.data.iloc[idx, 0])
-        img = cv2.imread(file_name, cv2.IMREAD_COLOR)
+        temp = cv2.imread(file_name, cv2.IMREAD_COLOR)
 
-        if type(img) == None:
-            test = cv2.Mat(1)
-            return test, -1
+        if temp is None:
+            import numpy as np
+            result = np.zeros((1, 1, 3), dtype=np.uint8)
+            return result, (-1, -1, -1, -1)
 
-        return img, label
+
+        return temp, label
 
 if __name__ == "__main__":
     from path import path
 
-    data = Datasets(path, "list_bbox_celeba.csv", "images")
-    img, label = data[1]
-    # if not img:
-    #     print("Exit cuz image is not valid")
-    #     exit()
+    data = Datasets(path, "list_bbox_celeba.csv", "img_align_celeba/img_align_celeba")
+    img, label = data[100]
+
     print(f"shape: {img.shape}, label: {label}")
 
-    # cv2.imshow("Original", img)
-    
-    # cv2.waitKey(0)
-    # cv2.destroyAllWindows()
+    cv2.imshow("Original", img)
+
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
