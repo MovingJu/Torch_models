@@ -1,6 +1,0 @@
-.venv/
-.vscode/
-test/
-.dockerignore
-.LICENSE
-modules/Cifar10

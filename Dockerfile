@@ -8,8 +8,10 @@ COPY ./pyproject.toml /app
 
 RUN pip install . --break-system-packages
 
-COPY . /app
+COPY ./modules/path.py /app/modules/path.py
+RUN python3 modules/path.py Face_detection
 
-RUN python3 modules/Facial_keypoints/path.py
+COPY ./modules /app/modules
+COPY ./main.py /app
 
-CMD ["python3", "modules/Facial_keypoints/Facial_keypoints.py"]
+CMD ["python3", "main.py"]

@@ -2,8 +2,7 @@ import modules
 
 def main():
 
-    modules.Facial_keypoints.main()
-
+    modules.Face_detection.main()
 
     return
 

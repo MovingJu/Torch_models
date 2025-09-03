@@ -1,2 +1,4 @@
 # from .Cifar10 import Datasets
-from .Facial_keypoints import Facial_keypoints, Datasets
+from .Face_detection import Datasets, Face_detection_model, main
+
+from .path import Face_detection_path, Cifar10_path
