@@ -39,15 +39,13 @@ class Datasets(Dataset):
 if __name__ == "__main__":
     import modules
 
-    breakpoint()
-
     data = Datasets(modules.path.Face_detection_path(), "list_bbox_celeba.csv", "img_align_celeba/img_align_celeba")
 
     img, label = data[100]
 
     print(f"shape: {img.shape}, label: {label}")
 
-    # cv2.imshow("Original", img)
+    cv2.imshow("Original", img)
 
-    # cv2.waitKey(0)
-    # cv2.destroyAllWindows()
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()

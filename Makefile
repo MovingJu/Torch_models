@@ -23,19 +23,18 @@ docker-run:
 	-d \
 	--shm-size=4g \
 	--gpus all \
-	-v $$(pwd)/modules/Face_detection:/app/modules/Face_dection \
+	-v $$(pwd)/modules/Face_detection:/app/modules/Face_detection \
 	-p $(port):8000 \
 	movingju/$(repo):$(docker_img_tag)
 
 docker-logs:
 	docker logs -f $(docker_img_tag)
 
+docker-stop:
+	docker stop $(docker_img_tag)
+
 docker-push:
 	docker push movingju/$(repo):$(docker_img_tag)
-
-build:
-	cmake . -B build
-	cmake --build build
 
 run: 
 	uv run main.py

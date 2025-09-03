@@ -48,7 +48,7 @@ def main():
         print(f"[Epoch {epoch+1}] Loss: {total_loss:.4f}")
 
     print("model entered test section!")
-    test_loader = DataLoader(train_dataset, batch_size=64, shuffle=True, num_workers=(os.cpu_count() or 4))
+    test_loader = DataLoader(test_dataset, batch_size=64, shuffle=False, num_workers=(os.cpu_count() or 4))
     with torch.no_grad():
         model.eval()
         final_total_loss = 0
