@@ -37,9 +37,12 @@ class Datasets(Dataset):
         return temp, label
 
 if __name__ == "__main__":
-    from modules.path import Face_detection_path
+    import modules
 
-    data = Datasets(Face_detection_path(), "list_bbox_celeba.csv", "img_align_celeba/img_align_celeba")
+    breakpoint()
+
+    data = Datasets(modules.path.Face_detection_path(), "list_bbox_celeba.csv", "img_align_celeba/img_align_celeba")
+
     img, label = data[100]
 
     print(f"shape: {img.shape}, label: {label}")
