@@ -21,7 +21,7 @@ def main():
     train_dataset, test_dataset = torch.utils.data.random_split(full_datas, [0.8, 0.2])
     train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True, num_workers=(os.cpu_count() or 4))
 
-    total_epoch = 3
+    total_epoch = 0
 
     print("training start!")
     for epoch in range(total_epoch):
@@ -60,7 +60,7 @@ def main():
             final_total_loss += final_loss
 
     print("saving model...")
-    torch.save(model, f"./modules/Face_detection/model/FD_test_model_{final_total_loss: .4f}.pt")
+    torch.save(model, f"./models/FD_test_model_{final_total_loss: .4f}.pt")
 
     print("-" * 6 + "Complete!" + "-" * 6)
 
