@@ -41,4 +41,8 @@ run:
 	uv run main.py
 
 clear:
-	rm -r .venv 
+	rm -r .venv
+
+git:
+	git commit -am '.'
+	git push origin main

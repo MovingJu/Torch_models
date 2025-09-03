@@ -44,7 +44,7 @@ if __name__ == "__main__":
 
     print(f"shape: {img.shape}, label: {label}")
 
-    cv2.imshow("Original", img)
+    # cv2.imshow("Original", img)
 
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
