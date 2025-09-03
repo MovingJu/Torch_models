@@ -23,6 +23,8 @@ class Datasets(Dataset):
             ],
             dtype=torch.float
         )
+        label = torch.nn.Sigmoid()(label)
+
         file_name = self.image_dir + "/" + str(self.data.iloc[idx, 0])
         temp = cv2.imread(file_name, cv2.IMREAD_COLOR)
 

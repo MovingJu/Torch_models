@@ -26,7 +26,8 @@ class Face_detection_model(nn.Module):
             nn.ReLU(),
             nn.Linear(512, 256),
             nn.ReLU(),
-            nn.Linear(256, 4)
+            nn.Linear(256, 4),
+            nn.Sigmoid()
         )
     def forward(self, x):
         x = self.cnn1(x)
