@@ -1,2 +1,2 @@
-from .models import Cifar10
-from .models import Facial_keypoints
+# from .Cifar10 import Datasets
+from .Facial_keypoints import Facial_keypoints, Datasets
