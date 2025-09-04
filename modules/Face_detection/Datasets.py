@@ -1,7 +1,6 @@
 import torchvision.transforms as transform
 from torch.utils.data import Dataset
 import torch, cv2, pandas as pd
-import numpy as np
 
 class Datasets(Dataset):
     def __init__(self, dataset_path: str, csv_file_name: str, image_path: str, is_train: bool = False, transform: transform.Compose | None = None):

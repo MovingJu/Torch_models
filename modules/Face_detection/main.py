@@ -12,7 +12,12 @@ def main():
         transforms.ToTensor(),
     ])
 
-    full_datas = modules.Datasets(modules.path.Face_detection_path(), "list_bbox_celeba.csv", "img_align_celeba/img_align_celeba", transform=transform)
+    full_datas = modules.Datasets(
+        modules.path.Face_detection_path(), 
+        "list_bbox_celeba.csv", 
+        "img_align_celeba/img_align_celeba", 
+        transform=transform
+    )
     model = modules.Face_detection_model().to(device)
     criterion = torch.nn.MSELoss()
     optimizer = 1e-3
