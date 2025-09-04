@@ -17,13 +17,14 @@ docker-test:
 	.
 
 docker-run:
+	./save_exit.sh > result.txt &
 	docker rm $(docker_img_tag)
 	docker run \
 	--name $(docker_img_tag) \
 	-d \
 	--shm-size=4g \
 	--gpus all \
-	-v $$(pwd)/modules/Face_detection:/app/modules/Face_detection \
+	-v $$(pwd)/models:/app/models \
 	-p $(port):8000 \
 	movingju/$(repo):$(docker_img_tag)
 
@@ -40,4 +41,7 @@ run:
 	uv run main.py
 
 clear:
-	rm -r .venv
+	rm -r .venv save_exit.log
+
+logs:
+	tail -f result.txt

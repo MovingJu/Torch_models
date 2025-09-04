@@ -21,7 +21,7 @@ def main():
     train_dataset, test_dataset = torch.utils.data.random_split(full_datas, [0.8, 0.2])
     train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True, num_workers=(os.cpu_count() or 4))
 
-    total_epoch = 0
+    total_epoch = 10
 
     print("training start!")
     for epoch in range(total_epoch):

@@ -11,6 +11,8 @@ RUN pip install . --break-system-packages
 COPY ./modules/path.py /app/modules/path.py
 RUN python3 modules/path.py Face_detection
 
+
+COPY ./models /app/models
 COPY ./modules /app/modules
 COPY ./main.py /app
 
