@@ -4,13 +4,16 @@ import modules
 
 def main():
 
+    file_path = "/app/models/running.txt"
+
+    with open(file_path, "w") as file:
+        file.write("Docker container is still running!")
+
     modules.Face_detection.main()
 
-    subprocess.run(["git", "add", "./models/*"])
-    subprocess.run(["git", "commit", "-m", "Add model"])
-    subprocess.run(["git", "push", "origin", "main"])
-
-    subprocess.run(["sudo", "poweroff"])
+    subprocess.run([
+        "rm", file_path
+    ])
 
     return
 
